@@ -1,7 +1,6 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
     responsiveVoice.speak("Hei, kuinka voin auttaa?", "Finnish Female");
-    $scope.textOutput = 'testing';
-    
+    $scope.textOutput = 'Response from Watson here';
     function upgrade() {
         alert('Please use Google Chrome for best experience');
     }
@@ -42,7 +41,6 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
             console.error(event.error);
         };
         speech.onend = function () {
-            console.error(final_transcript);
             setTimeout(function () {
                 speech.stop();
             }, 3000);
@@ -57,6 +55,7 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
 
     function speakBack(data) {
         responsiveVoice.speak(final_transcript, "Finnish Female");
-        console.log(final_transcript);
+        $scope.textInput = final_transcript;
+        $scope.$apply();
     }
 });
