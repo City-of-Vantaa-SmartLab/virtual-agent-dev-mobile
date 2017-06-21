@@ -55,7 +55,7 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
 
     function speakBack(data) {
         responsiveVoice.speak(final_transcript, "Finnish Female");
-        $scope.textInput = final_transcript;
+        $scope.textInput = "You said: " + final_transcript;
         $scope.$apply();
     }
 });
