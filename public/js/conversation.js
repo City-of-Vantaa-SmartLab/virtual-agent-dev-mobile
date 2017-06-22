@@ -121,7 +121,7 @@ var ConversationPanel = (function() {
       || (newPayload.output && newPayload.output.text);
     if (isUser !== null && textExists) {
         alert(newPayload.input.text);
-        if (newPayload.output && newPayload.output.text){
+        if (newPayload.output.text){
             alert(newPayload.output.text);
         }
       // Create new message DOM element
