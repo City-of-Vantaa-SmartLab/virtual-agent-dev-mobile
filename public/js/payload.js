@@ -75,6 +75,7 @@ var PayloadPanel = (function() {
       payloadElement.appendChild(payloadDiv);
       // Set the horizontal rule to show (if request and response payloads both exist)
       // or to hide (otherwise)
+
       var payloadInitial = document.querySelector(settings.selectors.payloadInitial);
       if (Api.getRequestPayload() || Api.getResponsePayload()) {
         payloadInitial.classList.add('hide');
