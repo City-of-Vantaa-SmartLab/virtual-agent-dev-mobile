@@ -1,3 +1,5 @@
+
+/*
 // The ConversationPanel module is designed to handle
 // all display and behaviors of the conversation column of the app.
 /* eslint no-unused-vars: "off" */
@@ -118,6 +120,7 @@ var ConversationPanel = (function() {
     var textExists = (newPayload.input && newPayload.input.text)
       || (newPayload.output && newPayload.output.text);
     if (isUser !== null && textExists) {
+        alert(newPayload.output);
       // Create new message DOM element
       var messageDivs = buildMessageDomElements(newPayload, isUser);
       var chatBoxElement = document.querySelector(settings.selectors.chatBox);
@@ -138,6 +141,7 @@ var ConversationPanel = (function() {
       });
       // Move chat to the most recent messages when new messages are added
       scrollToChatBottom();
+        
     }
   }
 

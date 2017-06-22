@@ -6,7 +6,7 @@
 
 <body>
     <div ng-controller="AvatarController as ac">
-        <div id="box">z
+        <div id="box">
             <div id="textOutputBox">
             <div id="textOutput">
                 <h1>{{textOutput}}</h1></div></div>
@@ -20,6 +20,7 @@
             </div>
         </div>
     </div>
+    <div id="hideThis">
     <div id="view-change-button" class="button" onclick="PayloadPanel.togglePanel(event, this)">
     <img class="option full" src="../img/Chat Button.png">
     <img class="option not-full" src="../img/Code Button.png">
@@ -43,6 +44,7 @@
       <div id="payload-response" class="payload"></div>
     </div>
   </div>
+    </div>
     <script src="js/common.js"></script>
   <script src="js/api.js"></script>
   <script src="js/conversation.js"></script>
