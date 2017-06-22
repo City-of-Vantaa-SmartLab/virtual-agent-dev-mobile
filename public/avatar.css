@@ -1,3 +1,7 @@
+#hideThis{
+    visibility: hidden;
+}
+
 div {
     position: fixed;
     color: black;

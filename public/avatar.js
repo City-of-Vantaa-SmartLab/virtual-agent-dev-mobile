@@ -1,9 +1,13 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
     responsiveVoice.speak("Hei, kuinka voin auttaa?", "Finnish Female");
     $scope.textOutput = 'Response from Watson here';
-    Api.sendRequest( '', null );
-    Api.sendRequest( 'vitsi', null );
-    alert (Api.getRequestPayload());
+    var context;
+      var latestResponse = Api.getResponsePayload();
+      if (latestResponse) {
+        context = latestResponse.context;
+      }
+    Api.sendRequest('vitsi', context);
+    $scope.textOutput = Api.getResponsePayload();
     function upgrade() {
         alert('Please use Google Chrome for best experience');
     }
