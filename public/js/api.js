@@ -44,6 +44,7 @@ var Api = (function() {
     http.setRequestHeader('Content-type', 'application/json');
     http.onreadystatechange = function() {
       if (http.readyState === 4 && http.status === 200 && http.responseText) {
+                  document.getElementById("array").innerHTML = "http.responseText";
         Api.setResponsePayload(http.responseText);
       }
     };
@@ -53,6 +54,7 @@ var Api = (function() {
     // to be used throughout the application
     if (Object.getOwnPropertyNames(payloadToWatson).length !== 0) {
       Api.setRequestPayload(params);
+
     }
 
     // Send request

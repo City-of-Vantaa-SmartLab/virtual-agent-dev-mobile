@@ -2,10 +2,13 @@
     visibility: hidden;
 }
 
+#array{
+    font-size: 12px;
+    bottom: 4px;
+}
 div {
     position: fixed;
     color: black;
-    font-family: 'lato';
     font-family: 'gt_walsheim_regular';
 }
 
@@ -14,60 +17,60 @@ body {
 }
 
 #bunny {
-    right: 100px;
-    bottom: 210px;
-    height: 300px;
-    width: 300px;
+    right: 5vw;
+    top: 50vh;
+    width: 25vw;
+    height: 25vh;
     background: url("./bunny_pixel.png") no-repeat center;
-    background-size: contain;
+     background-size: contain;
 }
 
 #textOutputBox {
-    top: 30px;
-    left: 30px;
-    right: 30px;
-    height: 200px;
-    background: url("./Output-field.png");
-    background-size: 800px 200px;
+    top: 3vh;
+    left: 3vw;
+    height: 20vh;
+    width: 100vw;
+   
+    background: url("./Output-field.png") no-repeat center;
+    background-size: contain;
     
     
 }
 
 #textOutput {
-    top: 30px;
-    left: 60px;
-    width: 350px;
-    height: 570px;
+    
     border-bottom: 0px;
     font-style: italic;
     font-size: larger;
 }
 
 #bubble {
-    right: 350px;
-    top: 255px;
-    width: 230px;
-    height: 230px;
+    right: 30vw;
+    top: 35vh;
+    width: 25vw;
+    height: 25vh;
     background: url("./bubble.png") no-repeat center;
-    background-size: 100% auto;
+     background-size: contain;
 }
 
 #hat {
-    left: 70px;
-    bottom: 500px;
-    width: 200px;
-    height: 200px;
+    left: 20px;
+    top: 40vh;
+    width: 25vw;
+    height: 25vh;
     background: url("./hat_pixel.png") no-repeat center;
-    background-size: 100% auto;
+    background-size: contain;
 }
 
 #textInputBox {
-    bottom: 30px;
-    left: 30px;
-    right: 30px;
-    height: 130px;
+    bottom: 3vh;
+    left: 3vw;
+    right: 3vw;
+    height: 20vh;
+    
     background: url("./input-field.png") no-repeat;
     opacity: 0.5;
+    background-size: cover;
     
 }
 

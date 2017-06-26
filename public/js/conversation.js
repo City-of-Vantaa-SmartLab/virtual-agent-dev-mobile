@@ -28,7 +28,7 @@ var ConversationPanel = (function() {
   // Initialize the module
   function init() {
     chatUpdateSetup();
-    Api.sendRequest( '', null );
+    
     setupInputBox();
   }
   // Set up callbacks on payload setters in Api module
@@ -120,10 +120,6 @@ var ConversationPanel = (function() {
     var textExists = (newPayload.input && newPayload.input.text)
       || (newPayload.output && newPayload.output.text);
     if (isUser !== null && textExists) {
-        alert(newPayload.input.text);
-        if (newPayload.output.text){
-            alert(newPayload.output.text);
-        }
       // Create new message DOM element
       var messageDivs = buildMessageDomElements(newPayload, isUser);
       var chatBoxElement = document.querySelector(settings.selectors.chatBox);
