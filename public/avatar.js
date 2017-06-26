@@ -1,9 +1,11 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
-    responsiveVoice.speak("Hei, kuinka voin auttaa?", "Finnish Female");
     Api.sendRequest('', null);
     setTimeout(function () {
+        
         $scope.textOutput = Api.getResponsePayload().output.text[0];
-    }, 1000;
+        responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female");
+        $scope.$apply();
+    }, 1000);
 
     function upgrade() {
         alert('Please use Google Chrome for best experience');
@@ -56,9 +58,17 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
 
     function speakBack(data) {
         Api.sendRequest(data, Api.getResponsePayload().context);
-        $scope.textInput = data;        
+        //Api.getResponsePayload = data;
+        $scope.textInput = data;
+        /*
+        alert(Api.getResponsePayload().output.text[0]);
+        $scope.textOutput = Api.getResponsePayload().output.text[0];
+        $scope.$apply();*/
         setTimeout(function () {
+            
             $scope.textOutput = Api.getResponsePayload().output.text[0];
+            responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female");
+            $scope.$apply();
         }, 1000);
     }
 });
