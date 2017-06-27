@@ -1,11 +1,15 @@
-#hideThis{
+#hideThis {
     visibility: hidden;
 }
 
-#array{
+#textInputDummy{
+    visibility: hidden;
+}
+#array {
     font-size: 12px;
     bottom: 4px;
 }
+
 div {
     position: fixed;
     color: black;
@@ -22,37 +26,34 @@ body {
     width: 25vw;
     height: 25vh;
     background: url("./bunny_pixel.png") no-repeat center;
-     background-size: contain;
+    background-size: contain;
 }
 
 #textOutputBox {
-    top: 5vw;
+    top: 1vw;
     left: 3vw;
-    right: 3vw;
-    height: 30vh;
-   
+    height: 35vh;
+    width: 95vw;
     background: url("./Output-field.png") no-repeat;
     background-size: contain;
-    
-    
 }
 
 #textOutput {
-    top: 3vh;
+    top: 1vh;
     left: 5vw;
     right: 5vw;
-    height: 20vh;
+    width: 90vh;
     font-style: italic;
     font-size: 2vw;
 }
 
 #bubble {
-    right: 30vw;
+    left: 45vw;
     top: 35vh;
     width: 25vw;
     height: 25vh;
     background: url("./bubble.png") no-repeat center;
-     background-size: contain;
+    background-size: contain;
 }
 
 #hat {
@@ -69,11 +70,9 @@ body {
     left: 3vw;
     right: 3vw;
     height: 20vh;
-    
     background: url("./input-field.png") no-repeat;
     opacity: 0.5;
     background-size: cover;
-    
 }
 
 #textInput {
@@ -83,13 +82,56 @@ body {
     height: 15vh;
 }
 
+@media only screen and (min-width: 1400px) {
+    #hideThis {
+        visibility: hidden;
+    }
+    #bunny {
+        right: 5vw;
+        top: 50vh;
+        width: 25vw;
+        height: 25vh;
+        background: url("./bunny_pixel.png") no-repeat center;
+        background-size: contain;
+    }
+    #textOutputBox {
+        top: 1vw;
+        left: 3vw;
+        height: 35vh;
+        width: 95vw;
+        background: url("./Output-field.png") no-repeat;
+        background-size: contain;
+    }
+    #textOutput {
+        top: 1vh;
+        left: 5vw;
+        right: 5vw;
+        width: 90vh;
+        font-style: italic;
+        font-size: 2vw;
+    }
+    #bubble {
+        left: 55vw;
+        top: 35vh;
+        width: 25vw;
+        height: 25vh;
+        background: url("./bubble.png") no-repeat center;
+        background-size: contain;
+    }
+    #hat {
+        left: 20px;
+        top: 40vh;
+        width: 25vw;
+        height: 25vh;
+        background: url("./hat_pixel.png") no-repeat center;
+        background-size: contain;
+    }
+}
+
 @font-face {
     font-family: 'gt_walsheim_regular';
     src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.eot');
-    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.eot"?#iefix') format('embedded-opentype'),
-         url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.woff') format('woff'),
-         url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.ttf') format('truetype'),
-         url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.svg#gt_walsheim_regular') format('svg');
+    src: url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.eot"?#iefix') format('embedded-opentype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.woff') format('woff'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.ttf') format('truetype'), url('https://s3.amazonaws.com/cocoapods/fonts/gt-walsheim-web.svg#gt_walsheim_regular') format('svg');
     font-weight: medium;
     font-style: normal;
 }
