@@ -82,12 +82,12 @@ body {
     height: 15vh;
 }
 
-@media only screen and (min-width: 1400px) {
+@media only screen and (min-width: 1200px) {
     #hideThis {
         visibility: hidden;
     }
     #bunny {
-        right: 5vw;
+        right: 15vw;
         top: 50vh;
         width: 25vw;
         height: 25vh;
@@ -97,21 +97,18 @@ body {
     #textOutputBox {
         top: 1vw;
         left: 3vw;
-        height: 35vh;
-        width: 95vw;
+        height: 50vh;
         background: url("./Output-field.png") no-repeat;
-        background-size: contain;
+        background-size: 100% 70%;
     }
     #textOutput {
         top: 1vh;
-        left: 5vw;
-        right: 5vw;
-        width: 90vh;
         font-style: italic;
-        font-size: 2vw;
+        font-size: 1.8vh;
+        width: 90vw;
     }
     #bubble {
-        left: 55vw;
+        right: 1px;
         top: 35vh;
         width: 25vw;
         height: 25vh;
@@ -119,7 +116,7 @@ body {
         background-size: contain;
     }
     #hat {
-        left: 20px;
+        left: 40px;
         top: 40vh;
         width: 25vw;
         height: 25vh;

@@ -1,6 +1,6 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
     Api.sendRequest('', null);
-    $scope.textOutput = 'wertyujhgfdf fghjkhgfhj gyghhjkkhgfgh ghjg';
+    $scope.textOutput = 'Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta.Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta.';
     setTimeout(function () {
         
         $scope.textOutput = Api.getResponsePayload().output.text[0];
@@ -46,9 +46,6 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
             console.error(event.error);
         };
         speech.onend = function () {
-            setTimeout(function () {
-                speech.stop();
-            }, 10000);
             speech.start();
         };
     }
