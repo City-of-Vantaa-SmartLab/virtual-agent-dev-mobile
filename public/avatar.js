@@ -1,6 +1,6 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
     Api.sendRequest('', null);
-    $scope.textOutput = 'Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta.Tervetuloa keskustelemaan Muuntamosta. Tervetuloa keskustelemaan Muuntamosta.';
+    $scope.textOutput = '';
     setTimeout(function () {
         
         $scope.textOutput = Api.getResponsePayload().output.text[0];
