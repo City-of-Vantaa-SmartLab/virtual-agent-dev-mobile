@@ -61,6 +61,9 @@ app.post('/api/message', function (req, res) {
 });
 // Generates and returns logs. To be called from client side.
 app.get('/logs', function (req, res) {
+    var output = [];
+    res.setHeader('Content-Type', 'application/json');
+
     function readFiles(dirname, onFileContent, onError) {
         fs.readdir(dirname, function (err, filenames) {
             if (err) {
@@ -74,7 +77,6 @@ app.get('/logs', function (req, res) {
                         return;
                     }
                     onFileContent(filename, content);
-                    console.log (filename);
                 });
             });
         });
@@ -82,10 +84,16 @@ app.get('/logs', function (req, res) {
     var data = {};
     readFiles('logs/', function (filename, content) {
         data[filename] = content;
+        console.log(filename);
+        output += filename + " " + JSON.stringify(JSON.parse(content), null, 2);
     }, function (err) {
         throw err;
     })
-    res.json("data");
+    setTimeout(snd, 1000);
+
+    function snd() {
+        res.send(output);
+    }
 });
 // Makes log entry
 function makeLogEntry(payload, response) {
