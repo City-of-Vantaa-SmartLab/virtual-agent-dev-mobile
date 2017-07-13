@@ -1,4 +1,5 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
+    $("#bubble").css("background-image", 'url("./bubble.png")');
     Api.sendRequest('', null);
     $scope.textOutput = '';
     setTimeout(function () {
@@ -24,8 +25,13 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
         speech.onstart = function () {
             // When recognition begins
             recognizing = true;
+            setTimeout(function () {
+                $("#bubble").css("background-image", 'url("./question-bubble.png")');
+            }, 5000);
         };
         speech.onresult = function (event) {
+            $("#bubble").css("background-image", 'url("./dots-bubble.png")');
+            
             var interim_transcript = '';
             for (var i = event.resultIndex; i < event.results.length; ++i) {
                 if (event.results[i].isFinal) {
@@ -54,7 +60,7 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
     };
 
     function speakBack(data) {
-        $(".outputText").css("background-color", black);
+        $("#bubble").css("background-image", 'url("./exclamation-bubble.png")');
         Api.sendRequest(data, Api.getResponsePayload().context);
         //Api.getResponsePayload = data;
         $scope.textInput = data;
@@ -62,11 +68,12 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
         alert(Api.getResponsePayload().output.text[0]);
         $scope.textOutput = Api.getResponsePayload().output.text[0];
         $scope.$apply();*/
+        
         setTimeout(function () {
             
             $scope.textOutput = Api.getResponsePayload().output.text[0];
             responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female");
             $scope.$apply();
-        }, 1000);
+        }, 200);
     }
 });
