@@ -22,6 +22,9 @@ var fs = require('fs');
 var moment = require('moment');
 var time = moment();
 var app = express();
+var time = moment();
+    var timeStampForEntry = time.format('DD.MM.YYYY HH:mm:ss Z');
+var DateForFileName = time.format('YYYY-MM-DD');
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
@@ -60,7 +63,7 @@ app.post('/api/message', function (req, res) {
     });
 });
 // Generates and returns logs. To be called from client side.
-app.get('/logs', function (req, res) {
+app.get('/log', function (req, res) {
     var output = [];
     res.setHeader('Content-Type', 'application/json');
 
@@ -81,8 +84,9 @@ app.get('/logs', function (req, res) {
             });
         });
     }
+    
     var data = {};
-    readFiles('logs/', function (filename, content) {
+    readFiles('log/', function (filename, content) {
         data[filename] = content;
         console.log(filename);
         output += filename + " " + JSON.stringify(JSON.parse(content), null, 2);
@@ -95,12 +99,11 @@ app.get('/logs', function (req, res) {
         res.send(output);
     }
 });
+
 // Makes log entry
 function makeLogEntry(payload, response) {
-    var time = moment();
-    var timeStampForEntry = time.format('YYYY-MM-DD HH:mm:ss Z');
-    var DateForFileName = time.format('YYYY-MM-DD');
-    var pathToLog = './logs/';
+    
+    var pathToLog = './log/';
     var obj = {
         entries: []
     };
@@ -118,7 +121,7 @@ function makeLogEntry(payload, response) {
         else {
             obj = JSON.parse(data); //now it's an object
             obj.entries.push({
-                time_formatted: timeStampForEntry
+                time: timeStampForEntry
                 , value: payload
                 , direction: response
             }); //add some data
@@ -134,7 +137,7 @@ function touch(filename) {
         if (err) {
             fs.writeFile(filename, JSON.stringify({
                 "entries": [{
-                    "time_formatted": timeStampForEntry
+                    "time": timeStampForEntry
                     , "value": "entries_start"
                     , "direction": "none"
                     }]

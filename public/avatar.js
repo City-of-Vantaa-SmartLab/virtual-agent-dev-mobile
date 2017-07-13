@@ -2,7 +2,6 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
     Api.sendRequest('', null);
     $scope.textOutput = '';
     setTimeout(function () {
-        
         $scope.textOutput = Api.getResponsePayload().output.text[0];
         responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female");
         $scope.$apply();
@@ -55,6 +54,7 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
     };
 
     function speakBack(data) {
+        $(".outputText").css("background-color", black);
         Api.sendRequest(data, Api.getResponsePayload().context);
         //Api.getResponsePayload = data;
         $scope.textInput = data;
