@@ -20,10 +20,11 @@ var Conversation = require('watson-developer-cloud/conversation/v1'); // watson 
 var server = require('http').Server(app);
 var fs = require('fs');
 var moment = require('moment');
+var request = require('request');
 var time = moment();
 var app = express();
 var time = moment();
-    var timeStampForEntry = time.format('DD.MM.YYYY HH:mm:ss Z');
+var timeStampForEntry = time.format('DD.MM.YYYY HH:mm:ss Z');
 var DateForFileName = time.format('YYYY-MM-DD');
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
@@ -62,6 +63,18 @@ app.post('/api/message', function (req, res) {
         return res.json(updateMessage(payload, data));
     });
 });
+// Returns the database.
+app.get('/db', function (req, res) {
+   var output = []; 
+   var body; request('http://smartlabvantaa.fi/demot/tilat_palveluna_muunneltavat_toimitilat/muuntamoWall.php?startdate=2017-07-17&enddate=2017-08-31&nogui=2', function (error, response, body) {
+       body = body.trim();
+       body = JSON.parse(body);
+        output = JSON.stringify(body, null, 2);
+        console.log(body);
+       res.charset = 'utf-8';
+       res.send(output);
+    });
+});
 // Generates and returns logs. To be called from client side.
 app.get('/log', function (req, res) {
     var output = [];
@@ -84,7 +97,6 @@ app.get('/log', function (req, res) {
             });
         });
     }
-    
     var data = {};
     readFiles('log/', function (filename, content) {
         data[filename] = content;
@@ -99,10 +111,8 @@ app.get('/log', function (req, res) {
         res.send(output);
     }
 });
-
 // Makes log entry
 function makeLogEntry(payload, response) {
-    
     var pathToLog = './log/';
     var obj = {
         entries: []
