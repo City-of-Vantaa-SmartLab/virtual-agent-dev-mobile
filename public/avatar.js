@@ -1,4 +1,5 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
+    
     $("#bubble").css("background-image", 'url("./question-bubble.png")');
     Api.sendRequest('', null);
     $scope.textOutput = '';
