@@ -1,7 +1,4 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
-    if (responsiveVoice.voiceSupport()) {
-        responsiveVoice.speak("hello world");
-    }
     $("#bubble").css("background-image", 'url("./question-bubble.png")');
     Api.sendRequest('', null);
     $scope.textOutput = '';
