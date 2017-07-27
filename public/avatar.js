@@ -1,83 +1,138 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
-    
-    $("#bubble").css("background-image", 'url("./question-bubble.png")');
-    Api.sendRequest('', null);
-    $scope.textOutput = '';
-    setTimeout(function () {
+    var state;
+    // TODO: COMBINE ALL HIDES INTO ONE FUNCTION
+    $scope.hideStartButton = false;
+    $scope.hideRecordButton = true;
+    $scope.hideStopButton = true;
+    $scope.muteOff = true;
+    $scope.initButtonClicked = function () {
+        console.log("init");
+        $scope.hideStartButton = true;
+        $scope.hideRecordButton = false;
+        $scope.hideStopButton = true;
+        init();
+        state = "init";
+    };
+    $scope.recordButtonClicked = function () {
+        console.log("record");
+        $scope.hideStartButton = true;
+        $scope.hideRecordButton = true;
+        $scope.hideStopButton = false;
+        //TODO: STOP BUTTON DISABLE HERE
+        startRecognizing();
+        state = "record";
+    };
+    $scope.stopButtonClicked = function () {
+        $scope.hideStartButton = true;
+        $scope.hideRecordButton = true;
+        $scope.hideStopButton = true;
         $scope.textOutput = Api.getResponsePayload().output.text[0];
-        responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female");
-        $scope.$apply();
-    }, 1000);
-    var speech;
+        console.log("stop record");
+        responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female", parameters);
+        state = "stop record";
+    };
+    
+    //TODO: MUTE FUNCTIONALITY WITH RESPONSIVEVOICE
+    $scope.muteOnClicked = function () {
+        console.log("mute on");
+        responsiveVoice.cancel();
+        $scope.muteOn = true;
+        $scope.muteOff = false;
+    };
+    $scope.muteOffClicked = function () {
+        console.log("mute off");
+        responsiveVoice.cancel();
+        $scope.muteOn = false;
+        $scope.muteOff = true;
+    };
+    //Disables bottom text box on mobile.
+    $scope.textInputBoxVisible = false;
 
-    function upgrade() {
-        alert('Please use Google Chrome for best experience');
+    function voiceStartCallback() {
+        console.log("Voice started");
+        document.getElementById('bubble').src = './exclamation-bubble.png';
     }
-    if (!(window.webkitSpeechRecognition) && !(window.speechRecognition)) {
-        upgrade();
+
+    function voiceEndCallback() {
+        console.log("Voice ended");
+        document.getElementById('bubble').src = './question-bubble.png';
+        $scope.hideRecordButton = false;
+        $scope.$apply();
     }
-    else {
-        var recognizing;
-        speech = new webkitSpeechRecognition() || speechRecognition();
-        var final_transcript = '';
-        speech.continuous = false;
-        speech.interimResults = false;
-        speech.lang = 'fi'; // check google web speech example source for more lanuages
-        speech.start(); //enables recognition on default
-        speech.onstart = function () {
-            // When recognition begins
-            recognizing = true;
-        };
-        speech.onresult = function (event) {
-            var interim_transcript = '';
-            for (var i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) {
-                    final_transcript += event.results[i][0].transcript;
-                }
-                else {
-                    interim_transcript += event.results[i][0].transcript;
-                }
-            }
-            if (final_transcript != "") {
-                speakBack(final_transcript);
-                final_transcript = "";
-                $("#bubble").css("background-image", 'url("./dots-bubble.png")');
-            }
-        };
-        speech.onerror = function (event) {
-            // Either 'No-speech' or 'Network connection error'
-            console.error(event.error);
-        };
-        speech.onend = function () {
-            speech.start();
-        };
-    }
-    var avatarElements = this;
-    avatarElements.input = function () {
-        return "Input Here";
+    var parameters = {
+        onstart: voiceStartCallback
+        , onend: voiceEndCallback
     };
 
-    function speakBack(data) {
-        function voiceStartCallback() {
-            console.log("Voice started");
-            $("#bubble").css("background-image", 'url("./exclamation-bubble.png")');
-            
-        }
-
-        function voiceEndCallback() {
-            console.log("Voice ended");
-            $("#bubble").css("background-image", 'url("./question-bubble.png")');
-        }
-        var parameters = {
-            onstart: voiceStartCallback
-            , onend: voiceEndCallback
-        }
-        Api.sendRequest(data, Api.getResponsePayload().context);
-        $scope.textInput = data;
+    function init() {
+        console.log("init");
+        document.getElementById('bubble').src = './question-bubble.png';
+        Api.sendRequest('', null); // Get first output from Watson Conversation.
+        $scope.textOutput = '';
+        // TODO: TIMEOUT -> CALLBACK
         setTimeout(function () {
             $scope.textOutput = Api.getResponsePayload().output.text[0];
-            responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female", parameters);
-            $scope.$apply();            
-        }, 2000);
-    }
+            responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female");
+            $scope.$apply();
+        }, 1000);
+    };
+
+    function startRecognizing() {
+        console.log("Start recognizing");
+        // TODO: REMOVE UPGRADE ETC
+        function upgrade() {
+            alert('Please use Google Chrome for best experience');
+        }
+        if (!(window.webkitSpeechRecognition) && !(window.speechRecognition)) {
+            upgrade();
+        }
+        else {
+            var recognizing;
+            var speech = new webkitSpeechRecognition() || speechRecognition();
+            var final_transcript = '';
+            speech.continuous = true;
+            speech.interimResults = false;
+            speech.lang = 'fi';
+            speech.start(); // Enables recognition on default.
+            speech.onstart = function () {
+                recognizing = true;
+            };
+            speech.onresult = function (event) {
+                var interim_transcript = '';
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        final_transcript += event.results[i][0].transcript;
+                    }
+                    else {
+                        interim_transcript += event.results[i][0].transcript;
+                    }
+                }
+                if (final_transcript != "") {
+                    toSpeackback = final_transcript;
+                    speakBack(final_transcript);
+                    final_transcript = "";
+                    document.getElementById('bubble').src = './dots-bubble.png';
+                    //TODO: STOP BUTTON ENABLE HERE
+                }
+            };
+            speech.onerror = function (event) {
+                // Either 'No-speech' or 'Network connection error'.
+                // Show rec button if no input.
+                $scope.hideStartButton = true;
+                $scope.hideRecordButton = false;
+                $scope.hideStopButton = true;
+                $scope.$apply();
+                console.error(event.error);
+            };
+            speech.onend = function () {
+                // Nothing here.
+            };
+        }
+    };
+    
+    // Get response from Watson Conversation.
+    function speakBack(data) {
+        Api.sendRequest(data, Api.getResponsePayload().context);
+        $scope.textInput = data;
+    };
 });

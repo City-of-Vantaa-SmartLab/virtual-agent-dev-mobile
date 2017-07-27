@@ -65,13 +65,13 @@ app.post('/api/message', function (req, res) {
 });
 // Returns the database.
 app.get('/db', function (req, res) {
+    res.setHeader('Content-Type', 'text/plain');
    var output = []; 
    var body; request('http://smartlabvantaa.fi/demot/tilat_palveluna_muunneltavat_toimitilat/muuntamoWall.php?startdate=2017-07-17&enddate=2017-08-31&nogui=2', function (error, response, body) {
        body = body.trim();
        body = JSON.parse(body);
         output = JSON.stringify(body, null, 2);
-        console.log(body);
-       res.charset = 'utf-8';
+        console.log(output);
        res.send(output);
     });
 });

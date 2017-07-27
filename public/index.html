@@ -1,7 +1,10 @@
 <!doctype html>
 <html ng-app="virtualAgentApp">
 <meta charset="UTF-8">
-<head> </head>
+
+<head>
+    <script src="https://use.fontawesome.com/9c63aec744.js"></script>
+</head>
 
 <body>
     <div id="outerContainer">
@@ -12,33 +15,43 @@
                         <h1>{{textOutput}}</h1></div>
                 </div>
                 <div id="top"></div>
-                <div id="bubble"></div>
-                <div id="hat"> </div>
-                <div id="bunny"></div>
-                <div id="textInputBox">
-                    <div id="textInput">
-                        <h1>{{textInput}}</h1></div>
+                <div id="bubbleDiv"> <img id="bubble" src="bubble.png"></div>
+                <div id="hat"></div>
+                <div id="bunnyDiv"> <img id="bunny" src="./bunny_pixel.png"> </div>
+                <div id="buttonStack">
+                    <p id="initButton" ng-click="initButtonClicked()" ng-hide="hideStartButton">Start!</p>
+                    <p id="recordButton" ng-click="recordButtonClicked()" ng-hide="hideRecordButton">Record</p>
+                    <p id="stopButton" ng-click="stopButtonClicked()" ng-hide="hideStopButton">Stop</p>
                 </div>
-                <div id="array"></div>
-            </div>
-        </div>
-        <div id="hideThis">
-            <div id="view-change-button" class="button" onclick="PayloadPanel.togglePanel(event, this)"> <img class="option full" src="../img/Chat Button.png"> <img class="option not-full" src="../img/Code Button.png"> </div>
-            <div id="contentParent" class="responsive-columns-wrapper">
-                <div id="chat-column-holder" class="responsive-column content-column">
-                    <div class="chat-column">
-                        <div id="scrollingChat"></div>
-                        <label for="textInput" class="inputOutline">
-                            <input id="textInput" class="input responsive-column" placeholder="Type something" type="text" onkeydown="ConversationPanel.inputKeyDown(event, this)"> </label>
-                    </div>
-                </div>
-                <div id="payload-column" class="fixed-column content-column">
-                    <div id="payload-initial-message"> Type something to see the output </div>
-                    <div id="payload-request" class="payload"></div>
-                    <div id="payload-response" class="payload"></div>
+                <div id="muteContainer">
+                    <p id="muteButton" ng-click="muteOnClicked()" ng-hide="muteOn"><i class="fa fa-volume-up"></i></p>
+                    <p id="muteButton" ng-click="muteOffClicked()" ng-hide="muteOff"><i class="fa fa-volume-off"></i></p>
                 </div>
             </div>
+            <div id="textInputBox" ng-show="textInputBoxVisible">
+                <div id="textInput">
+                    <h1>{{textInput}}</h1></div>
+            </div>
+            <div id="array"></div>
         </div>
+    </div>
+    <div id="hideThis">
+        <div id="view-change-button" class="button" onclick="PayloadPanel.togglePanel(event, this)"> <img class="option full" src="../img/Chat Button.png"> <img class="option not-full" src="../img/Code Button.png"> </div>
+        <div id="contentParent" class="responsive-columns-wrapper">
+            <div id="chat-column-holder" class="responsive-column content-column">
+                <div class="chat-column">
+                    <div id="scrollingChat"></div>
+                    <label for="textInput" class="inputOutline">
+                        <input id="textInput" class="input responsive-column" placeholder="Type something" type="text" onkeydown="ConversationPanel.inputKeyDown(event, this)"> </label>
+                </div>
+            </div>
+            <div id="payload-column" class="fixed-column content-column">
+                <div id="payload-initial-message"> Type something to see the output </div>
+                <div id="payload-request" class="payload"></div>
+                <div id="payload-response" class="payload"></div>
+            </div>
+        </div>
+    </div>
     </div>
     <script src="js/common.js"></script>
     <script src="js/api.js"></script>
