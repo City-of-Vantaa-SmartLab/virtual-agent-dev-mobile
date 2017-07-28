@@ -1,10 +1,11 @@
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
     var state;
+    var mute = false;
     // TODO: COMBINE ALL HIDES INTO ONE FUNCTION
     $scope.hideStartButton = false;
     $scope.hideRecordButton = true;
     $scope.hideStopButton = true;
-    $scope.muteOff = true;
+    $scope.hideMuteOff = true;
     $scope.initButtonClicked = function () {
         console.log("init");
         $scope.hideStartButton = true;
@@ -28,22 +29,27 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
         $scope.hideStopButton = true;
         $scope.textOutput = Api.getResponsePayload().output.text[0];
         console.log("stop record");
-        responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female", parameters);
+        if (!mute) {
+            responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female", parameters)
+        }
+        else {
+            document.getElementById('bubble').src = './question-bubble.png';
+            $scope.hideRecordButton = false;
+        }
         state = "stop record";
     };
-    
     //TODO: MUTE FUNCTIONALITY WITH RESPONSIVEVOICE
     $scope.muteOnClicked = function () {
         console.log("mute on");
-        responsiveVoice.cancel();
-        $scope.muteOn = true;
-        $scope.muteOff = false;
+        mute = true;
+        $scope.hideMuteOn = true;
+        $scope.hideMuteOff = false;
     };
     $scope.muteOffClicked = function () {
         console.log("mute off");
-        responsiveVoice.cancel();
-        $scope.muteOn = false;
-        $scope.muteOff = true;
+        mute = false;
+        $scope.hideMuteOn = false;
+        $scope.hideMuteOff = true;
     };
     //Disables bottom text box on mobile.
     $scope.textInputBoxVisible = false;
@@ -51,14 +57,14 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
     function voiceStartCallback() {
         console.log("Voice started");
         document.getElementById('bubble').src = './exclamation-bubble.png';
-    }
+    };
 
     function voiceEndCallback() {
         console.log("Voice ended");
         document.getElementById('bubble').src = './question-bubble.png';
         $scope.hideRecordButton = false;
         $scope.$apply();
-    }
+    };
     var parameters = {
         onstart: voiceStartCallback
         , onend: voiceEndCallback
@@ -72,7 +78,9 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
         // TODO: TIMEOUT -> CALLBACK
         setTimeout(function () {
             $scope.textOutput = Api.getResponsePayload().output.text[0];
-            responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female");
+            if (!mute) {
+                responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female")
+            }
             $scope.$apply();
         }, 1000);
     };
@@ -129,7 +137,6 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
             };
         }
     };
-    
     // Get response from Watson Conversation.
     function speakBack(data) {
         Api.sendRequest(data, Api.getResponsePayload().context);

@@ -6,7 +6,7 @@
     <script src="https://use.fontawesome.com/9c63aec744.js"></script>
 </head>
 
-<body>
+<body id="mute">
     <div id="outerContainer">
         <div ng-controller="AvatarController as ac">
             <div id="box">
@@ -24,8 +24,8 @@
                     <p id="stopButton" ng-click="stopButtonClicked()" ng-hide="hideStopButton">Stop</p>
                 </div>
                 <div id="muteContainer">
-                    <p id="muteButton" ng-click="muteOnClicked()" ng-hide="muteOn"><i class="fa fa-volume-up"></i></p>
-                    <p id="muteButton" ng-click="muteOffClicked()" ng-hide="muteOff"><i class="fa fa-volume-off"></i></p>
+                    <p id="muteButton" ng-click="muteOnClicked()" ng-hide="hideMuteOn"><i class="fa fa-volume-up"></i></p>
+                    <p id="muteButton" ng-click="muteOffClicked()" ng-hide="hideMuteOff"><i class="fa fa-volume-off"></i></p>
                 </div>
             </div>
             <div id="textInputBox" ng-show="textInputBoxVisible">
