@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <!-- If Socket.IO is used with Express, then the /socket.io/ path will
+        serve the proper Socket.IO javascript files used by the browser -->
+    <script src="/socket.io/socket.io.js"></script>
+    <meta charset="UTF-8">
+    <title>Web Speech API Test</title>
+    <style>
+      body {
+        font-family: monospace;
+        font-size: 22px;
+      }
+    </style>
+  </head>
+    <body>
+      <span id="oldmessages"></span>
+      <span id="speech"></span>
+      <span id="interim"></span>
+    </body>
+    <script>
+      function upgrade() {
+        alert('Please use Google Chrome for best experience');
+      }
+      window.onload = function() {
+        if (!(window.webkitSpeechRecognition) && !(window.speechRecognition)) {
+          upgrade();
+        } else {
+          var recognizing,
+          transcription = document.getElementById('speech'),
+          interim_span = document.getElementById('interim'),
+          oldmess = document.getElementById('oldmessages');
+          interim_span.style.opacity = '0.5';
+          function reset() {
+            console.log("Reset Recognizer");
+            recognizing = false;
+            interim_span.innerHTML = '';
+            transcription.innerHTML = '';
+            speech.start();
+          }
+          var speech = new webkitSpeechRecognition() || speechRecognition();
+          speech.continuous = true;
+          speech.interimResults = true;
+          speech.lang = 'fi'; // check google web speech example source for more lanuages
+          speech.start(); //enables recognition on default
+          speech.onstart = function() {
+              // When recognition begins
+              recognizing = true;
+          };
+          speech.onresult = function(event) {
+            console.log("Got results!");
+            // When recognition produces result
+            var interim_transcript = '';
+            var final_transcript = '';
+            // main for loop for final and interim results
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+              if (event.results[i].isFinal) {
+                final_transcript += event.results[i][0].transcript;
+              } else {
+                interim_transcript += event.results[i][0].transcript;
+              }
+            }
+            if(final_transcript.length > 0) {
+              translate(final_transcript);
+              oldmess.innerHTML += final_transcript + '</br>';
+            }
+            interim_span.innerHTML = interim_transcript;
+
+          };
+          speech.onerror = function(event) {
+              // Either 'No-speech' or 'Network connection error'
+              console.error(event.error);
+          };
+          speech.onend = function() {
+              // When recognition ends
+              oldmess.innerHTML += transcription.innerHTML;
+              reset();
+          };
+        }
+      };
+
+      function translate(text) {
+        var url = "https://translate.yandex.net/api/v1.5/tr.json/translate"
+        var xhr = new XMLHttpRequest();
+        var origText = text;
+        var languageFrom = 'fi';
+        var languageTo = 'en';
+        var apikey = 'trnsl.1.1.20170515T101612Z.eda8cca53daf515a.88346321491e133a9e24f0cd2701d524fa72f28e';
+
+        var data = "key="+apikey+"&text="+origText+"&lang="+languageFrom+"-"+languageTo;
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(data);
+        xhr.onreadystatechange = function() {
+          if(this.readyState == 4 && this.status == 200) {
+            var res = this.responseText;
+            var json = JSON.parse(res);
+            if(json.code == 200) {
+              document.querySelector('#oldmessages').innerHTML += json.text[0] + '</br>';
+            }
+            else {
+
+            }
+
+          }
+        }
+      }
+    </script>
+</html>
