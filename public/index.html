@@ -19,7 +19,8 @@
                 <div id="hat"></div>
                 <div id="bunnyDiv"> <img id="bunny" src="./bunny_pixel.png"> </div>
                 <div id="buttonStack">
-                    <p id="initButton" ng-click="initButtonClicked()" ng-hide="hideStartButton">Start!</p>
+                    <p id="disabledVeil"></p>
+                    <p id="initButton" ng-click="!isClickEnabled || initButtonClicked()" ng-hide="hideStartButton" ng-style="initStyle">Start!</p>
                     <p id="recordButton" ng-click="recordButtonClicked()" ng-hide="hideRecordButton">Record</p>
                     <p id="stopButton" ng-click="stopButtonClicked()" ng-hide="hideStopButton">Stop</p>
                 </div>

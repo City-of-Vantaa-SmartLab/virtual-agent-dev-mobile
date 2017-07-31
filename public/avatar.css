@@ -19,7 +19,15 @@ div {
     bottom: 5vh;
     left: 5vw;
 }
-
+#disabledVeil{
+    z-index: 999;
+    position: fixed;
+    background: white;
+    opacity: 0.5;
+    width: 23vw;
+    height: 10vw;
+    visibility: hidden;
+}
 #initButton {
     width: 20vw;
     max-width: 150px;

@@ -1,3 +1,4 @@
+
 angular.module('virtualAgentApp', []).controller('AvatarController', function ($scope, $http) {
     var state;
     var mute = false;
@@ -6,10 +7,11 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
     $scope.hideRecordButton = true;
     $scope.hideStopButton = true;
     $scope.hideMuteOff = true;
+    
     $scope.initButtonClicked = function () {
         console.log("init");
         $scope.hideStartButton = true;
-        $scope.hideRecordButton = false;
+        $scope.hideRecordButton = true;
         $scope.hideStopButton = true;
         init();
         state = "init";
@@ -18,7 +20,7 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
         console.log("record");
         $scope.hideStartButton = true;
         $scope.hideRecordButton = true;
-        $scope.hideStopButton = false;
+        $scope.hideStopButton = true;
         //TODO: STOP BUTTON DISABLE HERE
         startRecognizing();
         state = "record";
@@ -57,14 +59,16 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
     function voiceStartCallback() {
         console.log("Voice started");
         document.getElementById('bubble').src = './exclamation-bubble.png';
-    };
+    }
 
     function voiceEndCallback() {
         console.log("Voice ended");
         document.getElementById('bubble').src = './question-bubble.png';
-        $scope.hideRecordButton = false;
-        $scope.$apply();
-    };
+        setTimeout(function () {
+            $scope.hideRecordButton = false;
+            $scope.$apply();
+        }, 2000);
+    }
     var parameters = {
         onstart: voiceStartCallback
         , onend: voiceEndCallback
@@ -72,6 +76,26 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
 
     function init() {
         console.log("init");
+
+        function voiceStartCallback2() {
+            console.log("Voice started 2");
+            $scope.hideStartButton = true;
+            $scope.hideStopButton = true;
+            $scope.hideRecordButton = true;
+            $scope.$apply();
+        }
+
+        function voiceEndCallback2() {
+            console.log("Voice ended 2");
+            $scope.hideStartButton = true;
+            $scope.hideStopButton = true;
+            $scope.hideRecordButton = false;
+            $scope.$apply();
+        }
+        var parameters2 = {
+            onstart: voiceStartCallback2
+            , onend: voiceEndCallback2
+        };
         document.getElementById('bubble').src = './question-bubble.png';
         Api.sendRequest('', null); // Get first output from Watson Conversation.
         $scope.textOutput = '';
@@ -79,11 +103,14 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
         setTimeout(function () {
             $scope.textOutput = Api.getResponsePayload().output.text[0];
             if (!mute) {
-                responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female")
+                responsiveVoice.speak(Api.getResponsePayload().output.text[0], "Finnish Female", parameters2);
             }
-            $scope.$apply();
+            else {
+                voiceStartCallback2();
+                voiceEndCallback2();
+            }
         }, 1000);
-    };
+    }
 
     function startRecognizing() {
         console.log("Start recognizing");
@@ -103,6 +130,7 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
             speech.lang = 'fi';
             speech.start(); // Enables recognition on default.
             speech.onstart = function () {
+                document.getElementById('bubble').src = './dots-bubble.png';
                 recognizing = true;
             };
             speech.onresult = function (event) {
@@ -119,7 +147,11 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
                     toSpeackback = final_transcript;
                     speakBack(final_transcript);
                     final_transcript = "";
-                    document.getElementById('bubble').src = './dots-bubble.png';
+                    document.getElementById('bubble').src = './exclamation-bubble.png';
+                    $scope.hideStartButton = true;
+                    $scope.hideRecordButton = true;
+                    $scope.hideStopButton = false;
+                    $scope.$apply();
                     //TODO: STOP BUTTON ENABLE HERE
                 }
             };
@@ -133,13 +165,13 @@ angular.module('virtualAgentApp', []).controller('AvatarController', function ($
                 console.error(event.error);
             };
             speech.onend = function () {
-                // Nothing here.
+                speech.stop();
             };
         }
-    };
+    }
     // Get response from Watson Conversation.
     function speakBack(data) {
         Api.sendRequest(data, Api.getResponsePayload().context);
         $scope.textInput = data;
-    };
+    }
 });
