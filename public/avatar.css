@@ -19,7 +19,8 @@ div {
     bottom: 5vh;
     left: 5vw;
 }
-#disabledVeil{
+
+#disabledVeil {
     z-index: 999;
     position: fixed;
     background: white;
@@ -28,6 +29,7 @@ div {
     height: 10vw;
     visibility: hidden;
 }
+
 #initButton {
     width: 20vw;
     max-width: 150px;
@@ -292,6 +294,15 @@ body {
     left: 5vw;
     right: 5vw;
     height: 15vh;
+}
+
+.buttonDisabled {
+    background: lightgrey !important;
+    border: 4px solid grey !important;
+    top: 0px !important;
+}
+.buttonEnabled {
+    
 }
 
 @font-face {

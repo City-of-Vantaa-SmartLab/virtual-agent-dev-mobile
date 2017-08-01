@@ -20,13 +20,13 @@
                 <div id="bunnyDiv"> <img id="bunny" src="./bunny_pixel.png"> </div>
                 <div id="buttonStack">
                     <p id="disabledVeil"></p>
-                    <p id="initButton" ng-click="!isClickEnabled || initButtonClicked()" ng-hide="hideStartButton" ng-style="initStyle">Start!</p>
-                    <p id="recordButton" ng-click="recordButtonClicked()" ng-hide="hideRecordButton">Record</p>
-                    <p id="stopButton" ng-click="stopButtonClicked()" ng-hide="hideStopButton">Stop</p>
+                    <p ng-class="initButtonDisabled" id="initButton" ng-click="!isInitClickEnabled || initButtonClicked()" ng-hide="hideStartButton" >Start!</p>
+                    <p ng-class="recordButtonDisabled" id="recordButton" ng-click="!isRecordClickEnabled || recordButtonClicked()" ng-hide="hideRecordButton">Record</p>
+                    <p ng-class="stopButtonDisabled" id="stopButton" ng-click="!isStopClickEnabled || stopButtonClicked()" ng-hide="hideStopButton">Stop</p>
                 </div>
                 <div id="muteContainer">
-                    <p id="muteButton" ng-click="muteOnClicked()" ng-hide="hideMuteOn"><i class="fa fa-volume-up"></i></p>
-                    <p id="muteButton" ng-click="muteOffClicked()" ng-hide="hideMuteOff"><i class="fa fa-volume-off"></i></p>
+                    <p id="muteButton" ng-click="!isMuteClickEnabled ||muteOnClicked()" ng-hide="hideMuteOn"><i class="fa fa-volume-up"></i></p>
+                    <p id="muteButton" ng-click="!isMuteClickEnabled ||muteOffClicked()" ng-hide="hideMuteOff"><i class="fa fa-volume-off"></i></p>
                 </div>
             </div>
             <div id="textInputBox" ng-show="textInputBoxVisible">
